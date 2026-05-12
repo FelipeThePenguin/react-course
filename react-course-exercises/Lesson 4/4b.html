@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+
+    <style>
+      .switch-button {
+        background-color: rgb(25, 135, 84);
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 5px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function Switch() {
+        const [isButtonOn, switchButtonState] = React.useState(true);
+
+        function switchButton() {
+         switchButtonState(isButtonOn ? false : true);
+        }
+
+        return (
+          <>
+           <button
+            onClick={switchButton}
+            className="switch-button"
+           >
+           {isButtonOn ? 'ON' : 'OFF'}
+           </button>
+          </>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<Switch />);
+    </script>
+  </body>
+</html>
