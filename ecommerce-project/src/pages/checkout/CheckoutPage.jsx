@@ -15,18 +15,20 @@ export function CheckoutPage({ cart }) {
       setDeliveryOptions(response.data);
        
       response = await axios.get("/api/payment-summary");
-      setPaymentSummary(response.data);   
+      setPaymentSummary(response.data);
     };
 
     fetchCheckoutData();
   }, []);
 
+  console.log(paymentSummary);
+
   return (
     <>
       <title>Checkout</title>
       <link rel="icon" href="/images/cart-favicon.png" />
-
-      <CheckoutHeader />
+      
+      <CheckoutHeader cart={cart}/>
 
       <div className="checkout-page">
         <div className="page-title">Review your order</div>
