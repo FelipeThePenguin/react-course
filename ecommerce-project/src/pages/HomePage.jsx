@@ -4,6 +4,12 @@ import { Header } from '../components/Header';
 import { products } from '../../starting-code/data/products';
 
 export function HomePage() {
+ fetch('http://localhost:3000/api/products').then((response) => {
+  return response.json();
+ }).then((data) => {
+  console.log(data);
+ });
+
  return (
   <>
     <title>Ecommerce Project</title>
@@ -15,8 +21,7 @@ export function HomePage() {
       <div className="products-grid">
         {products.map((product) => {
          return (
-         <>
-          <div key={product.id} className="product-container">
+        <div key={product.id} className="product-container">
           <div className="product-image-container">
             <img className="product-image"
               src={product.image} />
@@ -64,7 +69,6 @@ export function HomePage() {
             Add to Cart
           </button>
         </div>
-         </>
          );
         })}
       </div>
