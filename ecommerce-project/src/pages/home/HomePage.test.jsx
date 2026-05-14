@@ -7,8 +7,9 @@ import { HomePage } from "./HomePage";
 
 vi.mock("axios");
 
-describe("HopePage component", () => {
+describe("HomePage component", () => {
   let loadCart;
+  let user;
 
   beforeEach(() => {
     loadCart = vi.fn();
@@ -43,6 +44,8 @@ describe("HopePage component", () => {
         };
       }
     });
+
+    user = userEvent.setup();
   });
 
   it("displays the products correctly", async () => {
@@ -59,13 +62,39 @@ describe("HopePage component", () => {
     expect(
       within(productContainers[0]).getByText(
         "Black and Gray Athletic Cotton Socks - 6 Pairs",
-      )
+      ),
     ).toBeInTheDocument();
 
     expect(
-      within(productContainers[1]).getByText(
-        "Intermediate Size Basketball",
-      )
+      within(productContainers[1]).getByText("Intermediate Size Basketball"),
     ).toBeInTheDocument();
+  });
+
+  it("makes the add to cart buttons work", async () => {
+    render(
+      <MemoryRouter>
+        <HomePage cart={[]} loadCart={loadCart} />
+      </MemoryRouter>,
+    );
+
+    const productContainers = await screen.findAllByTestId("product-container");
+
+    expect(productContainers.length).toBe(2);
+
+    const firstAddToCartButton = within(productContainers[0]).getByTestId("add-to-cart-button");
+    const secondAddToCartButton = within(productContainers[1]).getByTestId("add-to-cart-button");
+    await user.click(firstAddToCartButton);
+    await user.click(secondAddToCartButton);
+
+    expect(axios.post).toHaveBeenNthCalledWith(1, '/api/cart-items', {
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 1,
+    });
+    expect(axios.post).toHaveBeenNthCalledWith(2, '/api/cart-items', {
+      productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+      quantity: 1,
+    });
+    expect(loadCart).toHaveBeenCalledTimes(2);
+ 
   });
 });
