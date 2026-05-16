@@ -4,7 +4,13 @@ import './ChatMessage.css';
 
 console.log(UserProfileImage);
 
-export function ChatMessage({message, sender, currentTime}) {
+type ChatMessageProps = {
+  message: string;
+  sender: string;
+  currentTime: string;
+};
+
+export function ChatMessage({ message, sender, currentTime }: ChatMessageProps) {
   // const message = props.message;
   // const sender = props.sender;
   // const {message, sender} = props;
