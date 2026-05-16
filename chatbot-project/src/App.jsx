@@ -27,9 +27,12 @@ function App() {
   const setChatMessages = array[1]; // Updates the data
   */
 
+  const num = chatMessages.length;
+  const title = `${num} messasges`; 
+
   return (
     <>
-      <title>Chatbot project</title>
+      <title>{title}</title>
       <link rel="icon" href={ChatbotFavicon} />
 
       <div className="app-container">
