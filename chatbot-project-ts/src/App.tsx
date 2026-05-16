@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import { ChatInput } from "./components/ChatInput";
+import { Chatbot } from "supersimpledev";
+import ChatMessages from "./components/ChatMessages";
+import ChatbotFavicon from "./assets/robot.png";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [chatMessages, setChatMessages] = useState(
+    JSON.parse(localStorage.getItem("messages")) || [],
+  );
+  useEffect(() => {
+    Chatbot.addResponses({
+      goodbye: "Goodbye, have a good day!",
+      "give me a random id": `Sure! You got: ${(() => crypto.randomUUID())()}`,
+    });
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("messages", JSON.stringify(chatMessages));
+  }, [chatMessages]);
+
+  // const [chatMessages, setChatMessages] = array;
+
+  /*
+  const chatMessages = array[0]; // Current Data
+  const setChatMessages = array[1]; // Updates the data
+  */
+
+  const num = chatMessages.length;
+  const title = `${num} messasges`; 
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <title>{title}</title>
+      <link rel="icon" href={ChatbotFavicon} />
+
+      <div className="app-container">
+        <ChatMessages chatMessages={chatMessages} />
+        <ChatInput
+          chatMessages={chatMessages}
+          setChatMessages={setChatMessages}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
