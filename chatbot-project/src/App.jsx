@@ -1,22 +1,25 @@
-import { useState, useEffect } from 'react';
-import { ChatInput } from './components/ChatInput';
-import { Chatbot } from 'supersimpledev';
-import ChatMessages from './components/ChatMessages';
-import './App.css';
+import { useState, useEffect } from "react";
+import { ChatInput } from "./components/ChatInput";
+import { Chatbot } from "supersimpledev";
+import ChatMessages from "./components/ChatMessages";
+import ChatbotFavicon from "./assets/robot.png";
+import "./App.css";
 
- function App() {
-  const [chatMessages, setChatMessages] = useState(JSON.parse(localStorage.getItem('messages')) || []);
+function App() {
+  const [chatMessages, setChatMessages] = useState(
+    JSON.parse(localStorage.getItem("messages")) || [],
+  );
   useEffect(() => {
     Chatbot.addResponses({
-     'goodbye': 'Goodbye, have a good day!',
-     'give me a random id': `Sure! You got: ${(() => crypto.randomUUID())()}`
+      goodbye: "Goodbye, have a good day!",
+      "give me a random id": `Sure! You got: ${(() => crypto.randomUUID())()}`,
     });
   }, []);
 
   useEffect(() => {
-   localStorage.setItem('messages', JSON.stringify(chatMessages));
+    localStorage.setItem("messages", JSON.stringify(chatMessages));
   }, [chatMessages]);
-  
+
   // const [chatMessages, setChatMessages] = array;
 
   /*
@@ -25,16 +28,19 @@ import './App.css';
   */
 
   return (
-    <div className="app-container">
-    <ChatMessages 
-      chatMessages={chatMessages}
-    />
-    <ChatInput
-      chatMessages={chatMessages}
-      setChatMessages={setChatMessages}
-      />
-    </div>
+    <>
+      <title>Chatbot project</title>
+      <link rel="icon" href={ChatbotFavicon} />
+
+      <div className="app-container">
+        <ChatMessages chatMessages={chatMessages} />
+        <ChatInput
+          chatMessages={chatMessages}
+          setChatMessages={setChatMessages}
+        />
+      </div>
+    </>
   );
 }
 
-export default App
+export default App;
