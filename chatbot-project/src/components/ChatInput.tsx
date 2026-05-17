@@ -21,11 +21,18 @@ type ChatInputProps = {
   setChatMessages: (chatMessages: ChatMessagesProps[]) => void
 };
 
+type EventType = {
+  target: {
+    value: string;
+  },
+  key: string;
+};
+
 export function ChatInput({ chatMessages, setChatMessages }: ChatInputProps) {
   const [inputText, setInputText] = useState("");
   const [isLoading, setLoadingState] = useState(false);
 
-  function saveInputText(event) {
+  function saveInputText(event: EventType) {
     setInputText(event.target.value);
   }
 
@@ -76,7 +83,7 @@ export function ChatInput({ chatMessages, setChatMessages }: ChatInputProps) {
     setLoadingState(false);
   }
 
-  function enterMessage(event) {
+  function enterMessage(event: EventType) {
     if (event.key === "Enter") {
       sendMessage();
     }
@@ -95,9 +102,9 @@ export function ChatInput({ chatMessages, setChatMessages }: ChatInputProps) {
     <div className="chat-input-container">
       <input
         placeholder="Send a message to Chatbot"
-        size="30"
-        onChange={saveInputText}
-        onKeyDown={enterMessage}
+        size={30}
+        onChange={() => saveInputText}
+        onKeyDown={() => enterMessage}
         value={inputText}
         className="chat-input"
       />
