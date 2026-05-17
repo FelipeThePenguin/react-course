@@ -2,8 +2,15 @@ import { useRef, useEffect } from 'react'
 import { ChatMessage } from './ChatMessage'
 import './ChatMessages.css'
 
-function useAutoScroll(dependencies) {
-     const chatMessagesRef = useRef(null);
+type chatMessagesProps = {
+  message: string;
+  sender: string;
+  time: string;
+  id: string;
+};
+
+function useAutoScroll(dependencies: chatMessagesProps[]) {
+     const chatMessagesRef = useRef<HTMLDivElement>(null);
      // Let's you save an element into here
 
      useEffect(() => {
@@ -18,9 +25,11 @@ function useAutoScroll(dependencies) {
     }
 
   
-function ChatMessages({chatMessages}) {
+function ChatMessages({chatMessages}: {chatMessages: chatMessagesProps[]}) {
+
+  console.log(chatMessages);
  
-  const chatMessagesRef = useAutoScroll([chatMessages]);
+  const chatMessagesRef = useAutoScroll(chatMessages);
   // The ref attribute saves the element into the useRef hook
 
   const welcomeMessage = (
@@ -36,7 +45,7 @@ function ChatMessages({chatMessages}) {
    ref={chatMessagesRef}>
    {chatMessages.length === 0 
     ? welcomeMessage
-    : chatMessages.map(({message, sender, time, id}) => {
+    : chatMessages.map(({message, sender, time, id}: chatMessagesProps) => {
        return (
          <ChatMessage 
          message={message}

@@ -28,7 +28,7 @@ function App() {
   */
 
   const num = chatMessages.length;
-  const title = `${num} messasges`; 
+  const title = `${num} messasges`;
 
   return (
     <>
